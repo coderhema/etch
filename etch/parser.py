@@ -5,17 +5,33 @@ import json
 from etch.tokenizer import Token, TokenType
 
 
+# Chart type mapping - supports both long and short forms
+CHART_TYPES = {
+    "chartbar": "bar",
+    "chartpie": "pie",
+    "chartline": "line",
+    "chartscatter": "scatter",
+    "bar": "bar",
+    "pie": "pie",
+    "line": "line",
+    "scatter": "scatter",
+    "table": "table",
+}
+
+
 @dataclass
 class ChartCommand:
     type: str
     x_field: str
     y_field: str
+    config: dict = field(default_factory=dict)
 
 
 @dataclass
 class ParsedProgram:
     declarations: dict[str, Any] = field(default_factory=dict)
     commands: list[ChartCommand] = field(default_factory=list)
+    config: dict[str, Any] = field(default_factory=dict)  # Global config
 
 
 def parse(tokens: list[Token]) -> ParsedProgram:
@@ -26,6 +42,11 @@ def parse(tokens: list[Token]) -> ParsedProgram:
 
     while i < n:
         token = tokens[i]
+
+        # Skip newlines
+        if token.type == TokenType.NEWLINE:
+            i += 1
+            continue
 
         # Look for variable declaration: %identifier = value
         if token.type == TokenType.PERCENT and i + 2 < n:
@@ -54,27 +75,24 @@ def parse(tokens: list[Token]) -> ParsedProgram:
                 i += 1  # Skip the NEWLINE
                 continue
 
-        # Look for chart command: %chartbar : %sales.month = %sales.price
-        # or: %chartpie : %sales.month = %sales.price
+        # Look for chart/command: %bar :, %pie :, %line :, %scatter :
+        # or the longer forms: %chartbar :, %chartpie :, etc.
         if token.type == TokenType.PERCENT and i + 2 < n:
             next_token = tokens[i + 1]
             colon_token = tokens[i + 2]
 
             if (next_token.type == TokenType.IDENTIFIER and
                 colon_token.type == TokenType.COLON and
-                next_token.value in ("chartbar", "chartpie")):
+                next_token.value in CHART_TYPES):
                 
-                chart_type = next_token.value  # "chartbar" or "chartpie"
+                chart_type_raw = next_token.value
+                chart_type = CHART_TYPES[chart_type_raw]
                 
-                # This is a chart command
-                # Parse: x_field = y_field
-                # Format: PERCENT identifier DOT identifier EQUALS PERCENT identifier DOT identifier
-
-                # Skip past %chartbar : or %chartpie :
+                # Skip past %bar : or %chartbar :
                 i += 3
 
-                # Now parse %sales.month = %sales.price
-                # Expect: PERCENT, IDENTIFIER, DOT, IDENTIFIER, EQUALS, PERCENT, IDENTIFIER, DOT, IDENTIFIER
+                # Now parse %sales.month = %sales.price (or more complex expressions)
+                # Format: PERCENT identifier DOT identifier = expression
                 if (i + 8 < n and
                     tokens[i].type == TokenType.PERCENT and
                     tokens[i + 1].type == TokenType.IDENTIFIER and
@@ -94,17 +112,62 @@ def parse(tokens: list[Token]) -> ParsedProgram:
                     x_full = f"{x_var}.{x_field}"
                     y_full = f"{y_var}.{y_field}"
 
-                    program.commands.append(ChartCommand(
-                        type="pie" if chart_type == "chartpie" else "bar",
+                    cmd = ChartCommand(
+                        type=chart_type,
                         x_field=x_full,
-                        y_field=y_full
-                    ))
-
-                # Skip to end of line
-                while i < n and tokens[i].type != TokenType.NEWLINE:
-                    i += 1
-                i += 1  # Skip NEWLINE
-                continue
+                        y_field=y_full,
+                        config={}
+                    )
+                    program.commands.append(cmd)
+                    
+                    # Parse config lines (key: value) until next % or end
+                    i += 9
+                    while i < n and tokens[i].type != TokenType.NEWLINE:
+                        i += 1
+                    i += 1  # Skip NEWLINE
+                    
+                    # Continue parsing config lines
+                    while i < n:
+                        config_token = tokens[i]
+                        
+                        # Check for key: value pattern
+                        if (config_token.type == TokenType.IDENTIFIER and
+                            i + 2 < n and
+                            tokens[i + 1].type == TokenType.COLON):
+                            
+                            key = config_token.value
+                            value_token = tokens[i + 2]
+                            
+                            # Get the value
+                            if value_token.type == TokenType.IDENTIFIER:
+                                value = value_token.value
+                            elif value_token.type == TokenType.JSON_VALUE:
+                                try:
+                                    value = json.loads(value_token.value)
+                                except:
+                                    value = value_token.value
+                            else:
+                                value = value_token.value
+                            
+                            cmd.config[key] = value
+                            
+                            # Skip this config line
+                            i += 3
+                            while i < n and tokens[i].type != TokenType.NEWLINE:
+                                i += 1
+                            i += 1
+                        elif config_token.type == TokenType.PERCENT:
+                            # Next command starting - break out
+                            break
+                        else:
+                            # Skip unknown token
+                            i += 1
+                            if i < n and tokens[i].type == TokenType.NEWLINE:
+                                i += 1
+                    
+                    # Adjust i back by 1 since we'll increment at loop end
+                    i -= 1
+                    continue
 
         i += 1
 

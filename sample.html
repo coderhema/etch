@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>Sample</title>
+  <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 12px; }
+    .chart-container { position: relative; height: 250px; width: 100%; }
+    h2 { font-size: 14px; margin-bottom: 8px; color: #333; }
+  </style>
+</head>
+<body>
+  <h2>Sample</h2>
+  <div class='chart-container'>
+    <canvas id='barChart'></canvas>
+  </div>
+  <script>
+    new Chart(document.getElementById('barChart'), {
+      type: 'bar',
+      data: {
+        labels: ["Write", "Review", "Test", "Deploy"],
+        datasets: [
+          {
+            label: 'Value',
+            data: [80, 60, 40, 20],
+            backgroundColor: 'rgba(74, 144, 217, 0.7)',
+            borderColor: 'rgba(74, 144, 217, 1)',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    }});
+  </script>
+</body>
+</html>

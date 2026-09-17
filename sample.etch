@@ -1,0 +1,2 @@
+%progress = [{"task":"Write","done":80},{"task":"Review","done":60},{"task":"Test","done":40},{"task":"Deploy","done":20}]
+%chartbar : %progress.task = %progress.done

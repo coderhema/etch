@@ -16,12 +16,14 @@ def render_html(scene: list[dict], title: str = "Etch Chart") -> str:
         f"  <title>{title}</title>",
         "  <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>",
         "  <style>",
-        "    body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }",
-        "    .chart-container { position: relative; height: 300px; width: 100%; margin: 30px 0; }",
+        "    * { margin: 0; padding: 0; box-sizing: border-box; }",
+        "    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 12px; }",
+        "    .chart-container { position: relative; height: 250px; width: 100%; }",
+        "    h2 { font-size: 14px; margin-bottom: 8px; color: #333; }",
         "  </style>",
         "</head>",
         "<body>",
-        f"  <h1>{title}</h1>",
+        f"  <h2>{title}</h2>",
     ]
     
     # Render bar chart if present
