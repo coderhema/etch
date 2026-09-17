@@ -1,0 +1,3 @@
+%sales = [{"month":"Jan","revenue":5000},{"month":"Feb","revenue":7500},{"month":"Mar","revenue":6200}]
+%chartbar : %sales.month = %sales.revenue
+%chartpie : %sales.month = %sales.revenue

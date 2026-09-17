@@ -1,10 +1,10 @@
 # Etch
 
-A simple domain-specific language for creating charts (bar and pie), written in Python.
+A simple domain-specific language for creating interactive charts, written in Python.
 
 ## Overview
 
-Etch lets you define charts using a declarative text syntax. Write your data and chart specifications in an `.etch` file, then render it to SVG.
+Etch lets you define charts using a declarative text syntax. Render to static SVG or interactive HTML with Chart.js.
 
 ## Installation
 
@@ -18,8 +18,11 @@ cd etch
 ## Quick Start
 
 ```bash
-# Render an .etch file to SVG
+# Static SVG
 python -m etch render example.etch -o output.svg
+
+# Interactive HTML (Chart.js)
+python -m etch interactive example.etch -o output.html
 ```
 
 ## Syntax
@@ -32,56 +35,38 @@ Define data as a JSON array:
 %sales = [{"month":"Jan","price":100},{"month":"Feb","price":150}]
 ```
 
-### Bar Chart Command
-
-Create a bar chart by specifying which fields to use for labels and values:
+### Bar Chart
 
 ```
 %chartbar : %sales.month = %sales.price
 ```
 
-- Left of `=` — the field for X-axis labels
-- Right of `=` — the field for Y-axis values
-
-### Pie Chart Command
-
-Create a pie chart using the same field syntax:
+### Pie Chart
 
 ```
 %chartpie : %sales.month = %sales.price
 ```
 
-The pie chart automatically:
-- Calculates percentages from the total
-- Assigns colors from a palette
-- Displays a legend
+## Output Formats
 
-### Full Examples
-
-**Bar Chart:**
-```etch
-%sales = [{"month":"Jan","price":100},{"month":"Feb","price":150}]
-%chartbar : %sales.month = %sales.price
-```
-
-**Pie Chart:**
-```etch
-%budget = [{"category":"Rent","amount":1200},{"category":"Food","amount":600}]
-%chartpie : %budget.category = %budget.amount
-```
+| Command | Output | Use Case |
+|---------|--------|----------|
+| `render` | SVG | Static, embeddable charts |
+| `interactive` | HTML | Interactive with tooltips, hover |
 
 ## Architecture
 
 ```
-Input (.etch) → Tokenizer → Parser → Interpreter → SVG
+Input (.etch) → Tokenizer → Parser → Interpreter → Renderer (SVG/HTML)
 ```
 
-| Stage | File | Purpose |
-|-------|------|---------|
-| Tokenize | `etch/tokenizer.py` | Lex input into tokens |
-| Parse | `etch/parser.py` | Convert tokens to declarations + commands |
-| Interpret | `etch/interpreter.py` | Resolve data into a scene graph |
-| Render | `etch/render_svg.py` | Generate SVG string |
+| Stage | File |
+|-------|------|
+| Tokenize | `tokenizer.py` |
+| Parse | `parser.py` |
+| Interpret | `interpreter.py` |
+| Render SVG | `render_svg.py` |
+| Render HTML | `render_html.py` |
 
 ## Running Tests
 
@@ -89,17 +74,8 @@ Input (.etch) → Tokenizer → Parser → Interpreter → SVG
 pytest tests/
 ```
 
-## Example Files
-
-- `example.etch` - Sample bar chart definition
-- `example.svg` - Rendered bar chart
-- `pie.etch` - Sample pie chart definition
-- `pie.svg` - Rendered pie chart
-
 ## Extending Etch
-
-The project structure makes it easy to add new features:
 
 - **New token types** — edit `tokenizer.py`
 - **New chart types** — edit `parser.py` and `interpreter.py`
-- **New render styles** — edit `render_svg.py`
+- **New renderers** — add new `render_*.py` files

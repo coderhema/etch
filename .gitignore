@@ -4,3 +4,6 @@ __pycache__/
 *.svg
 !example.svg
 !pie.svg
+!test.svg
+*.html
+!*.html

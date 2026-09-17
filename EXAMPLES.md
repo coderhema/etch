@@ -2,9 +2,7 @@
 
 This file demonstrates how to use Etch to create charts.
 
-## Bar Chart
-
-### Temperature Data
+## Bar Chart (Static SVG)
 
 ```etch
 %temperatures = [
@@ -17,42 +15,36 @@ This file demonstrates how to use Etch to create charts.
 %chartbar : %temperatures.city = %temperatures.temp
 ```
 
-**Render:**
+**Render to SVG:**
 ```bash
-python -m etch render temperature.etch -o temperature.svg
+python -m etch render test.etch -o test.svg
 ```
 
 ![Bar Chart](test.svg)
 
-## Pie Chart
+## Interactive HTML (Chart.js)
 
-### Budget Breakdown
-
-```etch
-%budget = [
-  {"category":"Rent","amount":1200},
-  {"category":"Food","amount":600},
-  {"category":"Transport","amount":300},
-  {"category":"Entertainment","amount":400}
-]
-%chartpie : %budget.category = %budget.amount
-```
-
-**Render:**
-```bash
-python -m etch render budget.etch -o budget.svg
-```
-
-![Pie Chart](pie.svg)
-
-## More Examples
-
-Run these to see more charts:
+Generate interactive HTML with hovering, tooltips, and animations:
 
 ```bash
-# Bar chart
-python -m etch render example.etch -o example.svg
+# Interactive bar chart
+python -m etch interactive test.etch -o test.html
 
-# Pie chart  
-python -m etch render pie.etch -o pie.svg
+# Interactive pie chart
+python -m etch interactive pie.etch -o pie.html
+
+# Combined bar + pie
+python -m etch interactive combined.etch -o combined.html
 ```
+
+Open the HTML file in a browser to see interactive charts! Features:
+- Hover for tooltips with values
+- Click legend to toggle data
+- Smooth animations
+
+## Commands
+
+| Command | Output | Description |
+|---------|--------|-------------|
+| `python -m etch render input.etch -o output.svg` | SVG | Static chart |
+| `python -m etch interactive input.etch -o output.html` | HTML | Interactive chart |
