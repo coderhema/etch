@@ -17,7 +17,7 @@ def render_html(scene: list[dict], title: str = "Etch Chart") -> str:
         "  <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>",
         "  <style>",
         "    body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }",
-        "    .chart-container { margin: 30px 0; }",
+        "    .chart-container { position: relative; height: 300px; width: 100%; margin: 30px 0; }",
         "  </style>",
         "</head>",
         "<body>",
