@@ -1,0 +1,2 @@
+%sales = [{"month":"Jan","price":100},{"month":"Feb","price":150}]
+%chartbar : %sales.month = %sales.price

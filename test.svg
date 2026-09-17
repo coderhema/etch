@@ -1,0 +1,13 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="white"/>
+  <rect x="58.333333333333336" y="62.19780219780222" width="50" height="197.80219780219778" fill="#4A90D9"/>
+  <text x="83.33333333333334" y="290" text-anchor="middle" font-family="sans-serif" font-size="12">NYC</text>
+  <rect x="116.66666666666667" y="26.483516483516468" width="50" height="233.51648351648353" fill="#4A90D9"/>
+  <text x="141.66666666666669" y="290" text-anchor="middle" font-family="sans-serif" font-size="12">LA</text>
+  <rect x="175.0" y="10.0" width="50" height="250.0" fill="#4A90D9"/>
+  <text x="200.0" y="290" text-anchor="middle" font-family="sans-serif" font-size="12">Miami</text>
+  <rect x="233.33333333333334" y="81.42857142857142" width="50" height="178.57142857142858" fill="#4A90D9"/>
+  <text x="258.33333333333337" y="290" text-anchor="middle" font-family="sans-serif" font-size="12">Denver</text>
+  <rect x="291.6666666666667" y="100.65934065934067" width="50" height="159.34065934065933" fill="#4A90D9"/>
+  <text x="316.6666666666667" y="290" text-anchor="middle" font-family="sans-serif" font-size="12">Seattle</text>
+</svg>

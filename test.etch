@@ -1,0 +1,2 @@
+%temperatures = [{"city":"NYC","temp":72},{"city":"LA","temp":85},{"city":"Miami","temp":91},{"city":"Denver","temp":65},{"city":"Seattle","temp":58}]
+%chartbar : %temperatures.city = %temperatures.temp

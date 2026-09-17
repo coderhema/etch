@@ -1,0 +1,15 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="white"/>
+  <path d="M 200 150 L 200.0 50.0 A 100 100 0 0 1 212.53332335643046 249.21147013144778 Z" fill="#4A90D9" stroke="white" stroke-width="1"/>
+  <rect x="320" y="80" width="15" height="15" fill="#4A90D9"/>
+  <text x="340" y="92" font-family="sans-serif" font-size="11">Rent</text>
+  <path d="M 200 150 L 212.53332335643046 249.21147013144778 A 100 100 0 0 1 101.77127492713115 168.7381314585725 Z" fill="#E74C3C" stroke="white" stroke-width="1"/>
+  <rect x="320" y="100" width="15" height="15" fill="#E74C3C"/>
+  <text x="340" y="112" font-family="sans-serif" font-size="11">Food</text>
+  <path d="M 200 150 L 101.77127492713115 168.7381314585725 A 100 100 0 0 1 115.56720744979846 96.41732050210041 Z" fill="#2ECC71" stroke="white" stroke-width="1"/>
+  <rect x="320" y="120" width="15" height="15" fill="#2ECC71"/>
+  <text x="340" y="132" font-family="sans-serif" font-size="11">Transport</text>
+  <path d="M 200 150 L 115.56720744979846 96.41732050210041 A 100 100 0 0 1 199.99999999999997 50.0 Z" fill="#F39C12" stroke="white" stroke-width="1"/>
+  <rect x="320" y="140" width="15" height="15" fill="#F39C12"/>
+  <text x="340" y="152" font-family="sans-serif" font-size="11">Entertainment</text>
+</svg>

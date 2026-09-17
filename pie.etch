@@ -1,0 +1,2 @@
+%budget = [{"category":"Rent","amount":1200},{"category":"Food","amount":600},{"category":"Transport","amount":300},{"category":"Entertainment","amount":400}]
+%chartpie : %budget.category = %budget.amount
